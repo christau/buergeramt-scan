@@ -1,8 +1,10 @@
+# coding=utf-8
 import logging
 from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 import time
+import re
 from config import url, interval_time
 
 logging.basicConfig(
@@ -17,7 +19,8 @@ def handle_found_appointments(num_found):
     print("\a")
 
 def crawl():
-    html = requests.get(url)
+    s = requests.Session()
+    html = s.get(url)
     if(html.status_code != 200):
         print("Website Error")
         return
@@ -27,8 +30,18 @@ def crawl():
     if found > 0:
         logging.info("FOUND %d POSSIBLE APPOINTMENTS!" % found)
         handle_found_appointments(found)
-
-
+    else: #try next month too
+        logging.info("Trying next month")
+        a = soup.find_all('a', {'title': re.compile(r'nächster.*')})
+        next_path = urljoin(url,'/').strip('/') + a[0]['href']
+        html = s.get(next_path)
+        soup = BeautifulSoup(html.text, 'html.parser')
+        logging.info("Occupied: %d" % len(soup.find_all("td", { "class": "nichtbuchbar" })))
+        found = len(soup.find_all("td", { "class": "buchbar" }))
+        if found > 0:
+            logging.info("FOUND %d POSSIBLE APPOINTMENTS!" % found)
+            handle_found_appointments(found)
+    s.close()
 if url == "enter-url-here":
     logging.error("You have to enter a URL (get from Bürgeramt 'Termin Berlinweit suchen')")
     exit()
@@ -36,3 +49,4 @@ if url == "enter-url-here":
 while True:
     crawl()
     time.sleep(interval_time)
+
