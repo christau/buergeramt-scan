@@ -18,8 +18,9 @@ chats = dict()
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def termin(update, context):
-    user = update.message.from_user
+    user = update.message.from_user.first_name
     url = update.message.text.split(" ")[1]
+    logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name + " asked for termin from " + url)
     pattern = re.compile(r"^https://service\.berlin\.de/terminvereinbarung/termin/tag.php\?.*")
     if not pattern.match(url):
         update.message.reply_text("Sorry, aber die url scheint falsch zu sein. Sie muss das format https://service.berlin.de/terminvereinbarung/termin/tag.php?termin=1... haben.\nPeace out")
@@ -39,10 +40,12 @@ def termin(update, context):
         tasks[url].append(update)
         chats[url].append(update.message.chat_id)
 def help(update, context):
+    logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name + " asked for help")
     """Send a message when the command /help is issued."""
 #    print(update)
     update.message.reply_text('Bitte gehe auf https://service.berlin.de/dienstleistungen/ und wähle deine Dienstleistung aus. Dann klicke Dich durch, bis Du zur Terminbuchung kommst. Kopiere diese Url dann und füge sie nach dem Kommando /termin ein.\n Zum Beispiel /termin https://service.berlin.de/terminvereinbarung/termin/tag.php?...')
 def cancel(update, context):
+    logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name+ " asked for abbruch")
     ch_id = update.message.chat_id
     found = False
     for url in chats:
@@ -56,6 +59,7 @@ def cancel(update, context):
         update.message.reply_text('Du hast keine Suche offen.')
  
 def resume(update, context):
+    logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name + " asked for resume")
     ch_id = update.message.chat_id
     for url in chats:
         if ch_id in chats[url]:
@@ -63,7 +67,7 @@ def resume(update, context):
             update.message.reply_text('OK, werde weiter nach einem Termin ausschau halten. Mit /abbruch kannst Du die Suche beenden.')
 
 def echo(update, context):
-    """Echo the user message."""
+    logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name + " asked for " + update.message.text)
     update.message.reply_text("Yo digga, was geht. Bitte benutze /hilfe , /termin [url] , /abbruch")
 
 def error(update, context):
@@ -74,6 +78,7 @@ def check_for_appointments():
       threading.Timer(interval_time, check_for_appointments).start()
       for url in tasks:
         if len(tasks[url]) > 0:
+            logging.info("Checking for appointments on " + url)
             apps = crawler.crawl(url)
             if apps:
                 for user in tasks[url]:
