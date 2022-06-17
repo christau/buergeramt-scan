@@ -34,7 +34,7 @@ def crawl(link):
   #try next month too
     logging.info("Trying next month")
     a = soup.find_all('a', {'title': re.compile(r'nächster.*')})
-    next_path = urljoin(url,'/').strip('/') + a[0]['href']
+    next_path = urljoin(link,'/').strip('/') + a[0]['href']
     html = s.get(next_path)
     soup = BeautifulSoup(html.text, 'html.parser')
     av_app+=parse_tables(soup)
