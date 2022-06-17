@@ -1,10 +1,8 @@
 # coding=utf-8
 import logging
 from urllib.parse import urljoin
-from zoneinfo import available_timezones
 import requests
 from bs4 import BeautifulSoup
-import time
 import re
 
 logging.basicConfig(
