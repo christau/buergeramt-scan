@@ -15,8 +15,6 @@ logger = logging.getLogger(__name__)
 tasks = dict()
 chats = dict()
 
-# Define a few command handlers. These usually take the two arguments update and
-# context. Error handlers also receive the raised TelegramError object in error.
 def termin(update, context):
     user = update.message.from_user.first_name
     url = update.message.text.split(" ")[1]
@@ -41,9 +39,12 @@ def termin(update, context):
         chats[url].append(update.message.chat_id)
 def help(update, context):
     logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name + " asked for help")
-    """Send a message when the command /help is issued."""
-#    print(update)
     update.message.reply_text('Bitte gehe auf https://service.berlin.de/dienstleistungen/ und wähle deine Dienstleistung aus. Dann klicke Dich durch, bis Du zur Terminbuchung kommst. Kopiere diese Url dann und füge sie nach dem Kommando /termin ein.\n Zum Beispiel /termin https://service.berlin.de/terminvereinbarung/termin/tag.php?...')
+
+def start(update, context):
+    user = update.message.from_user.first_name 
+    logging.info("User " + str(update.message.from_user.id) + ":" + user+ " started the bot")
+    update.message.reply_text('Hallo '+ user +'.\nWillkommen zur Terminsuche für die Bürgerämter in Berlin.\nBitte gehe auf https://service.berlin.de/dienstleistungen/ und wähle deine Dienstleistung aus. Dann klicke Dich durch, bis Du zur Terminbuchung kommst. Kopiere diese Url dann und füge sie nach dem Kommando /termin ein.\n Zum Beispiel /termin https://service.berlin.de/terminvereinbarung/termin/tag.php?...')
 def cancel(update, context):
     logging.info("User " + str(update.message.from_user.id) + ":" + update.message.from_user.first_name+ " asked for abbruch")
     ch_id = update.message.chat_id
@@ -93,6 +94,7 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
+    dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("termin", termin))
     dp.add_handler(CommandHandler("hilfe", help))
     dp.add_handler(CommandHandler("weiter", resume))
