@@ -6,7 +6,6 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import re
-from config import url, interval_time
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)s:%(message)s',
@@ -43,8 +42,3 @@ def crawl(link):
     av_app+=parse_tables(soup)
     s.close()
     return av_app
-if url == "enter-url-here":
-    logging.error("You have to enter a URL (get from Bürgeramt 'Termin Berlinweit suchen')")
-    exit()
-
-

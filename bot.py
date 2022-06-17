@@ -4,6 +4,7 @@ import crawler
 import logging
 import threading
 import re
+from config import token, interval_time
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -70,7 +71,7 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 def check_for_appointments():
-      threading.Timer(20.0, check_for_appointments).start()
+      threading.Timer(interval_time, check_for_appointments).start()
       for url in tasks:
         if len(tasks[url]) > 0:
             apps = crawler.crawl(url)
@@ -81,7 +82,7 @@ def check_for_appointments():
 
 
 def main():
-    updater = Updater("bot token", use_context=True)
+    updater = Updater(token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
