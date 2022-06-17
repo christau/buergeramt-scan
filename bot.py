@@ -53,7 +53,9 @@ def cancel(update, context):
         if ch_id in chats[url]:
             found = True
             if update in tasks[url]:
-                tasks[url].remove(update)
+                for item in tasks[url]:
+                    if item.message.chat_id == ch_id:
+                        tasks.remove(update)
             chats[url].remove(ch_id)
             update.message.reply_text('OK, habe Deine Suche abgebrochen.')
     if found == False:
