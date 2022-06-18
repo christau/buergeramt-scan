@@ -1,6 +1,11 @@
 # Berlin Bürgeramt Appointment Bot
 This repository was once forked from https://github.com/Sinnaj94/buergeramt-scan. So big thanks for the initial work!  
 But now it got completely reworked to get the date of the free appointments and moreover to act as a telegram bot.  
+
+## What it's not
+This script is not and will not be able to unattendedly register appointments for you. It only shows you the days that have free appointments and it's up to you to visit the url and reserve an appointment for you.  
+Altough it would be technically possible to reserve a appointment, but it would be anisocial to do so. And also the side effects would be that people reserve multiple appointments which they do not use. This is antisocial in my opinion. So don't expect the bot to do this ever.
+
 ## Demo
 You can use this live bot by visiting https://t.me/buergeramtstermine_bot
 
