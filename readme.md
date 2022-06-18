@@ -14,7 +14,7 @@ https://service.berlin.de/terminvereinbarung/termin/tag.php?...
 The button will look like this for searching all citizen's offices  
 ![](alle_buergeraemter.png)
 
-or for a singler citizen's office
+or for a single citizen's office
 
 ![](einzelnes_buergeramt.png)
 
