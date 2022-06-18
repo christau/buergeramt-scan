@@ -52,10 +52,10 @@ def cancel(update, context):
     for url in chats:
         if ch_id in chats[url]:
             found = True
-            if update in tasks[url]:
-                for item in tasks[url]:
-                    if item.message.chat_id == ch_id:
-                        tasks.remove(update)
+            for item in tasks[url]:
+                if item.message.chat_id == ch_id:
+                    tasks[url].remove(item)
+                    break
             chats[url].remove(ch_id)
             update.message.reply_text('OK, habe Deine Suche abgebrochen.')
     if found == False:
