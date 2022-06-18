@@ -6,7 +6,7 @@ You can use this live bot by visiting https://t.me/buergeramtstermine_bot
 
 ## Usage
 You can interact with the bot using the commands `/hilfe` , `/termin` or `/abbruch`  
-So if you want to find days with free appointments, go to https://service.berlin.de/dienstleistungen/ choose you Dienstleistung and scroll to the button "Termin berlinweit suchen" and copy it's url to the clipboard (right click on the button).  
+So if you want to find days with free appointments, go to https://service.berlin.de/dienstleistungen/ choose your Dienstleistung and scroll to the button "Termin berlinweit suchen" and copy it's url to the clipboard (right click on the button).  
 This will look like this  
 ```
 https://service.berlin.de/terminvereinbarung/termin/tag.php?...
