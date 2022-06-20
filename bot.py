@@ -31,6 +31,12 @@ def termin(update, context):
     if url in chats:
         if update.message.chat_id in chats[url]:
             chats[url].remove(update.message.chat_id)
+            update.message.reply_text('Du hattest bereits eine Suche offen. Diese wird jetzt abgebrochen')
+            for url in tasks:
+                for upd in tasks[url]:
+                    if upd.message.chat_id == update.message.chat_id:
+                        tasks[url].remove(upd)
+                        break
     if not url in tasks:
         tasks[url]=[update]
         chats[url]=[update.message.chat_id]
@@ -108,7 +114,7 @@ def main():
     dp.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
+    updater.start_polling(timeout=600)
 
     check_for_appointments()
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
